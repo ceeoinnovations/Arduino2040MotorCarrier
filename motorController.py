@@ -71,8 +71,6 @@ class NanoMotorBoard():
         return n if mode else n/236
         
     def enable_battery_charging(self):
-        # Only if the board is a nano 33 IoT
-        
         # min sys voltage 3.88 V + max input current 2.0 A
         b = self.i2c.writeto(PMIC_ADDRESS, bytearray([PMIC_REG00,0x06]))
         # Charge Battery + Minimum System Voltage 3.5 V
@@ -173,7 +171,8 @@ class Servo(NanoMotorBoard):
     
     def setFrequency(self, frequency):
         return self.setData(SET_PWM_FREQUENCY_SERVO, self.instance, frequency)
-                    
+    
+'''                
 fred = DCMotor(0) 
 fred.setDuty(0)
 
@@ -188,3 +187,9 @@ fred.setSetpoint(TARGET_POSITION, target)
 bill = Servo(1)
 bill.setFrequency(50)
 bill.setAngle(90)
+
+
+import machine    
+adc_pin = machine.Pin(28)
+adc = machine.ADC(adc_pin)
+'''

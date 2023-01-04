@@ -22,13 +22,11 @@ def Init():
     return motors
 
 def Ramp(motors):
-    for duty in range(-100,100,1):
-        print("Motor Duty: %d" % duty)
-        print('Battery: %0.1f' % board.battery(1))
+    for duty in range(-100,100,10):
         for motor in motors:
+            print('Encoder: %d' % motor.readEncoder(),end=' ')
             b = motor.setDuty(duty)
-            print(motor.readEncoder(),end=' ')
-        print('')
+        print('Duty: %d  Bat: %0.1f' % (duty, board.battery(0)))
         time.sleep_ms(100)
 
 def Stop(motors):  
@@ -36,7 +34,27 @@ def Stop(motors):
         b = motor.setDuty(0)
 
 motors = Init()
-for i in range(100):
-    Ramp(motors)
-Stop(motors)
 
+good = True
+start = time.time()
+f = open('test.py','w')
+f.write('')
+f.close()
+    
+while good:
+    for motor in motors:  # initialize
+        b = motor.setDuty(0)
+        b = motor.resetEncoder(0)
+    Ramp(motors)
+    Stop(motors)
+    time.sleep(1)
+
+    dt = time.time()-start
+    string = '%d\t%d\t%d\t%0.1f\n'%(dt,motors[0].readEncoder(),motors[1].readEncoder(),board.battery(0))
+    print(string)
+    f = open('test.py','a')
+    f.write(string)
+    f.close()
+    #if abs(motor.readEncoder()) < 5:
+        #good = False
+Stop(motors)

@@ -1,3 +1,5 @@
+# 2 min in on video on https://edu-content-preview.arduino.cc/content-preview/university/project/CONTENTPREVIEW+AEKR2
+
 import time
 from motorController import *
 
@@ -17,7 +19,7 @@ for motor in motors:  # initialize
     b = motor.setDuty(0)
     b = motor.resetEncoder(0)
 
-while True:
+for i in range(100):
     i=0
     for motor in motors:
         print("Encoder%d Pos [counts]: %d" % (i, motor.readEncoder()))
